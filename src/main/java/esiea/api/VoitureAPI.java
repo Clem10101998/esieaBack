@@ -45,8 +45,6 @@ public class VoitureAPI {
 		return ret.toString();
 	}
 	
-	
-	
 	/**
 	 * Utilise le DAO pour insérer une voiture en base de données
 	 * @return Retourne true si l'insertion s'est déroulée avec succès

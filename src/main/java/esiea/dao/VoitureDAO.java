@@ -22,7 +22,7 @@ public class VoitureDAO {
 		
 	}
 	
-	private Connection getConnexion() {
+	public Connection getConnexion() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			if (connection == null) {
@@ -167,7 +167,7 @@ public class VoitureDAO {
 		return sb.toString();
 	}
 	
-	private Voiture setVoiture(ResultSet res) throws SQLException {
+	public Voiture setVoiture(ResultSet res) throws SQLException {
 		Voiture ret = new Voiture();
 		ret.setId(res.getInt("id"));
 		ret.setMarque(res.getString("marque"));
