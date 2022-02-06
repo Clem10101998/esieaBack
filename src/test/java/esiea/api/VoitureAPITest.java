@@ -1,6 +1,5 @@
 package esiea.api;
 
-
 import esiea.dao.VoitureDAO;
 import esiea.metier.Voiture;
 
@@ -9,19 +8,15 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
 import static org.assertj.core.api.Assertions.*;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import java.sql.SQLException;
-
-import static org.junit.Assert.assertEquals;
 
 public class VoitureAPITest extends JerseyTest {
 
@@ -53,6 +48,8 @@ public class VoitureAPITest extends JerseyTest {
         ret.put("voitures", liste);
 
         System.out.println("Code de la réponse : "+response.getStatus());
+        System.out.println("Réponse Api : "+content);
+        System.out.println("Comparaison avec la méthode dans VoitureDAO : "+ret.toString());
 
         assertThat(Response.Status.OK.getStatusCode()).isEqualTo(response.getStatus());
         assertThat(content).isNotNull().isEqualTo(ret.toString());
@@ -87,7 +84,7 @@ public class VoitureAPITest extends JerseyTest {
 
     @Test
     @DisplayName("Récupération d'une voiture par rapport à son Id")
-    public void getVoituresJson_whenCorrectRequest_thenResponseIsOkAndContainsJsonListOfVoiture_Identified_By_Id() throws SQLException {
+    public void getVoituresJson_whenCorrectRequest_thenResponseIsOkAndContainsJsonListOfVoiture_Identified_By_An_Id() throws SQLException {
         Response response = target("/voiture/get/39").request().get();
 
         final String json = target("voiture/get/39").request().get(String.class);
@@ -118,7 +115,7 @@ public class VoitureAPITest extends JerseyTest {
     @DisplayName("Retourne l'objet voiture depuis un JsonObject et vérifie la conformité des attributs")
     public void voituresFromJsonTest_when_attributes_are_conforms(){
 
-        String jsonVoiture = "{\"marque\":\"JsonTest\",\"modele\":\"corvette\",\"finition\":\"test\",\"carburant\":\"E\",\"km\":30,\"annee\":1800,\"prix\":100}";
+        String jsonVoiture = "{\"marque\":\"JsonTest\",\"modele\":\"corvette\",\"finition\":\"test\",\"carburant\":\"E\",\"km\":30,\"annee\":1900,\"prix\":100}";
         JSONObject json = new JSONObject(jsonVoiture);
 
         voiture = carAPI.voitureFromJson(json);
@@ -127,10 +124,10 @@ public class VoitureAPITest extends JerseyTest {
     }
 
     @Test
-    @DisplayName("Création d'une voiture en appelant la méthode ajouterVoiture dans VoitureDAO")
+    @DisplayName("Création d'une voiture")
     public void addVoitureJsonTest() throws SQLException {
 
-        String jsonVoiture = "{\"marque\":\"JsonTest\",\"modele\":\"corvette\",\"finition\":\"test\",\"carburant\":\"E\",\"km\":30,\"annee\":1600,\"prix\":100}";
+        String jsonVoiture = "{\"marque\":\"JsonTest\",\"modele\":\"corvette\",\"finition\":\"test\",\"carburant\":\"E\",\"km\":30,\"annee\":2000,\"prix\":100}";
         Response response = target("/voiture/add").request().post(Entity.json(jsonVoiture));
 
         System.out.println(response);
@@ -147,7 +144,4 @@ public class VoitureAPITest extends JerseyTest {
         System.out.println(response);
         assertThat(Response.Status.OK.getStatusCode()).isEqualTo(response.getStatus());
     }
-
-
-
 }

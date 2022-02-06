@@ -1,6 +1,5 @@
 package esiea.metier;
 
-import junit.framework.TestCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,14 +54,14 @@ public class VoitureTest {
     @DisplayName("getKm")
     public void getKmTest(){
         voiture.setKm(300);
-        assertThat(voiture.getKm()).isBetween(10, 5000);
+        assertThat(voiture.getKm()).isBetween(0, 5000);
     }
 
     @Test
     @DisplayName("getAnnee")
     public void getAnneeTest(){
-        voiture.setAnnee(1800);
-        assertThat(voiture.getAnnee()).isPositive().isEqualTo(1800);
+        voiture.setAnnee(2000);
+        assertThat(voiture.getAnnee()).isPositive().isEqualTo(2000);
     }
 
     @Test
@@ -74,14 +73,14 @@ public class VoitureTest {
 
     //Test for check() Method
     @Test
-    @DisplayName("Retourne true si tous les attribues")
+    @DisplayName("Retourne true si tous les attribues sont conformes")
     public void checkTest_When_attributes_are_conforms(){
         voiture.setId(2);
         voiture.setMarque("test");
         voiture.setModele("test");
         voiture.setFinition("test");
         voiture.setKm(300);
-        voiture.setAnnee(2000);
+        voiture.setAnnee(1999);
         voiture.setPrix(30);
         voiture.setCarburant(Voiture.Carburant.ELECTRIQUE);
 
@@ -90,18 +89,24 @@ public class VoitureTest {
     }
 
     @Test
-    @DisplayName("Retourne true si chaque attribue sont conformes aux conditions définies")
+    @DisplayName("Retourne false si l'un des attributs n'est pas conforme")
     public void checkTest_When_attributes_are_not_conforms(){
 
         voiture.setMarque("test");
+        voiture.setModele("test");
+        voiture.setFinition("test");
+        voiture.setKm(300);
+        voiture.setAnnee(1800);
+        voiture.setPrix(30);
+        voiture.setCarburant(Voiture.Carburant.ELECTRIQUE);
 
         boolean test = voiture.check();
-        assertThat(test).isTrue();
+        assertThat(test).isFalse();
     }
 
     //Test for getTypeDonnee() method
     @Test
-    @DisplayName("Retourne la chaine 'string' si la String correspond aux données du tableau 'strings'")
+    @DisplayName("Retourne la chaine 'string' si la String passée en paramètre correspond aux données du tableau 'strings'")
     public void getTypeDonneeTest_When_Donnee_is_String(){
         String donnee_string = "finition";
         String string = voiture.getTypeDonnee(donnee_string);
@@ -109,7 +114,7 @@ public class VoitureTest {
     }
 
     @Test
-    @DisplayName("Retourne la chaine 'entier' si la String correspond aux données du tableau 'entiers'")
+    @DisplayName("Retourne la chaine 'entier' si la String passée en paramètre correspond aux données du tableau 'entiers'")
     public void getTypeDonneeTest_When_Donnee_is_Entier(){
         String donnee_entier = "km";
         String entier = voiture.getTypeDonnee(donnee_entier);
@@ -117,16 +122,11 @@ public class VoitureTest {
     }
 
     @Test
-    @DisplayName("Retourne une chaine vide si la String est nulle")
+    @DisplayName("Retourne une chaine vide si la String passée en paramètre est nulle")
     public void getTypeDonneeTest_When_Donnee_is_Null() {
         String donnee_null = null;
         String empty = voiture.getTypeDonnee(donnee_null);
         assertThat(empty).isEqualTo("").isEmpty();
 
     }
-
-
-
-
-
 }

@@ -6,32 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import javax.sql.DataSource;
-
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.when;
-
 import java.sql.*;
 
 @ExtendWith(MockitoExtension.class)
 public class VoitureDAOTest {
-
-    @Mock
-    private Connection mockConnection;
-    @Mock
-    private PreparedStatement mockStmt;
-    @Mock
-    private ResultSet mockRes;
-
-    @Before
-    public void setUp() throws SQLException{
-        MockitoAnnotations.initMocks(this);
-    }
 
     Voiture voiture;
     VoitureDAO voitureDAO;
@@ -43,23 +23,17 @@ public class VoitureDAOTest {
 
         //Définition d'une voiture
         voiture.setId(48);
-        voiture.setMarque("Clem");
-        voiture.setModele("Renault");
-        voiture.setFinition("test");
+        voiture.setMarque("Renault");
+        voiture.setModele("Clio");
+        voiture.setFinition("Rouge");
         voiture.setKm(300);
-        voiture.setAnnee(1900);
-        voiture.setPrix(30);
-        voiture.setCarburant(Voiture.Carburant.ELECTRIQUE);
+        voiture.setAnnee(2003);
+        voiture.setPrix(2000);
+        voiture.setCarburant(Voiture.Carburant.ESSENCE);
 
     }
 
-    /*@Test
-    public void TestMockConnection() throws SQLException{
-        //Mockito.when(mockConnection.prepareStatement(voitureDAO.getVoiture("2")).executeUpdate(Mockito.any())).thenReturn(2);
-        Mockito.when(mockConnection.prepareStatement("select id from Voiture").executeQuery(Mockito.any()));
-    }*/
-
-    ////Test for getVoiture() method
+    //Test for getVoiture() method
     @Test
     @DisplayName("Récupération d'une voiture par rapport à son Id")
     public void getVoitureTest_When_id_is_specified() throws SQLException {
@@ -73,7 +47,7 @@ public class VoitureDAOTest {
 
     @Test
     @DisplayName("Récupération de voitures par rapport à un filtre (Renault)")
-    public void getVoitureTest_When_another_parameter_is_specified() throws SQLException {
+    public void getVoitureTest_When_parameter_of_type_String_is_specified() throws SQLException {
         Voiture [] voitures = {};
         voitures = voitureDAO.getVoiture("Renault");
         assertThat(voitures.length).isGreaterThanOrEqualTo(0);
@@ -112,8 +86,4 @@ public class VoitureDAOTest {
         voitureDAO.supprimerVoiture("12");
 
     }
-
-
-
-
 }
